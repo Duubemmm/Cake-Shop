@@ -42,6 +42,7 @@ svg {
   margin: 0.8rem auto;
   width: 100%;
   max-width: 80rem;
+  padding: 1.5rem;
 }
 
 .product-list {
@@ -90,8 +91,10 @@ svg {
   display: flex;
   width: 55%;
   margin: 0 10%;
-  gap: 0.8rem;
-  font-size: 1em;
+  gap: 0.5rem;
+  font-size:0.9rem;
+  font-weight: bold;
+  color: black;
   position: absolute;
   bottom: -9px;
   left: 40%;
@@ -102,8 +105,7 @@ svg {
 }
 
 .add-to-cart-button img {
-  width: 1.2rem;
-  display: inline-block;
+  width: 1.3rem;
 }
 
 .add-to-cart-button:hover {
@@ -143,23 +145,19 @@ svg {
 }
 
 .quantity-order img {
-  display: block;
   align-self: center;
-  justify-self: center;
   border: 1px solid var(--Rose-50);
   border-radius: 50%;
   color: var(--Rose-50);
   height: 0.8rem;
-  width: 1.5rem;
+  width: 1rem;
   padding: 0.1rem;
-  transition: background-color 0.3s;
 }
 
-.quantity-order img:hover {
-  background-color: var(--Rose-50);
-  color: black;
+.quantity-order img:hover{
+background-color: var(--Rose-300);
+opacity: 0.75;
 }
-
 .quantity-order span {
   margin: 0 1rem;
 }
@@ -196,7 +194,7 @@ svg {
   align-items: center;
   margin-bottom: 0.3rem;
   padding: 0 0.4rem;
-  border-bottom: 1px solid var(--Rose-400);
+  border-bottom: 0.8px solid var(--Rose-300);
 }
 
 .ordered-product-image {
@@ -207,16 +205,22 @@ svg {
 
 .ordered-product-details {
   flex-grow: 1;
+  margin-top: 0.3rem;
+  padding: 0.2rem;
 }
 
 .ordered-product-name {
   color: black;
   font-size: medium;
+  font-weight: 700;
 }
 .remove-icon {
-  height: 15px;
-  width: 15px;
   cursor: pointer;
+  height: 1rem;
+  width: 0.5rem;
+  padding: 0.0675rem 0;
+  border-radius: 50%;
+  border: 0.0625rem solid black;
 }
 
 .total-order-p {
@@ -241,11 +245,13 @@ svg {
 
 .quantity {
   color: var(--Red-);
+  padding-right:5px;
 }
 
 .standard-price {
   color: var(--Rose-300);
   padding-left: 0.8rem;
+  font-weight: 600;
 }
 
 .calculated-price {
@@ -269,10 +275,12 @@ svg {
   font-size: 12px;
   position: relative;
   left: 0;
+  display: flex;
+  font-weight: 400;
 }
 
 .total-items-span {
-  color: green;
+  color: black;
   font-weight: 900;
   font-size: large;
   display: block;
@@ -398,6 +406,7 @@ svg {
     align-items: center;
     justify-content: center;
     gap: 1rem;
+    padding: 1rem;
   }
 
   .product-grid {
@@ -445,6 +454,7 @@ svg {
     align-items: flex-start;
     justify-content: center;
     gap: 1rem;
+    padding: 1rem;
   }
 
   .product-grid {

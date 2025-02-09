@@ -55,7 +55,9 @@ function addProductToCart(e) {
   addedItem.style.display = "none";
   emptyCartImage.style.display = "none";
   totalOrder.style.display = "flex";
-  totalProductsOrdered.innerHTML = `<div class="style-orderedproducts"><p class="total-items">Order Total </p><span class="total-items-span"></span></div>`;
+  totalProductsOrdered.innerHTML = `<div class="style-orderedproducts"><p class="total-items">Order Total </p><span class="total-items-span">$${totalOrderAmount.toFixed(
+    2
+  )}</span></div>`;
 
   const productContainer = button.closest(".product-container");
   const productImageSrc = productContainer.querySelector(".product-image").src;
@@ -70,18 +72,19 @@ function addProductToCart(e) {
   if (!Array.isArray(cart)) {
     cart = [];
   }
-  const orderData = {
-    id: productId,
-    name: productName,
-    image: productImageSrc,
-    price: productPrice,
-    details: productDetails,
-    quantity: 1,
-  };
 
-  cart.push(orderData);
-
-  console.log("Updated Cart Data:", cart); // Debugging log
+  const existingProduct = cart.find((item) => item.id === productId);
+  if (existingProduct) {
+    existingProduct.quantity += 1;
+  } else {
+    cart.push({
+      id: productId,
+      name: productName,
+      image: productImageSrc,
+      price: productPrice,
+      quantity: 1,
+    });
+  }
 
   localStorage.setItem("confirmedOrder", JSON.stringify(cart));
 
@@ -140,6 +143,7 @@ function createOrderedProduct(
     }
     if (quantityOrder) {
       quantityOrder.style.display = "none";
+      quantityOrder.querySelector(".order-quantity").textContent = "1"; // Reset quantity to 1
     }
 
     const orderedItems = document.querySelectorAll(".ordered-product");
@@ -242,24 +246,21 @@ function updateCartData(productName, newQuantity) {
 
 // Confirmed order
 function confirmedOrder() {
-  const orderData = JSON.parse(localStorage.getItem("confirmedOrder")) || [];
+  let orderData = JSON.parse(localStorage.getItem("confirmedOrder")) || [];
 
-  console.log("Order Data:", orderData); // Debugging log
-  itemsOrdered.innerHTML = "";
+  itemsOrdered.innerHTML = ""; // Ensure modal content is cleared first
+  itemsOrdered.style.display = "block"; // Make sure the modal is visible
+
   if (orderData.length > 0) {
     let totalQuantity = orderData.reduce((sum, item) => sum + item.quantity, 0); // Calculate total quantity
-    let totalAmount = orderData.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    ); // Calculate total amount
+    let totalAmount = orderData.reduce((sum, item) => sum + item.price * item.quantity, 0); // Calculate total amount
+
     orderData.forEach((item) => {
       const orderDiv = document.createElement("div");
       orderDiv.classList.add("ordered-item");
 
       orderDiv.innerHTML = `
-        <img src="${item.image}" alt="${
-        item.name
-      }" class="modal-product-image" />
+        <img src="${item.image}" alt="${item.name}" class="modal-product-image" />
         <div class="modal-product-details">
           <h3>${item.name}</h3>
           <p>${item.quantity}x</p>
@@ -269,80 +270,79 @@ function confirmedOrder() {
 
       itemsOrdered.appendChild(orderDiv);
     });
+
     itemsOrdered.innerHTML += `
-    <div class="order-summary">
-      <p>Total Amount: $${totalAmount.toFixed(2)}</p>
-    </div>
-  `;
+      <div class="order-summary">
+        <p>Total Amount: $${totalAmount.toFixed(2)}</p>
+      </div>
+    `;
   } else {
     itemsOrdered.innerHTML = `<p>No items ordered.</p>`;
   }
+
   confirmedModalOrder.classList.remove("hidden"); // Show the modal
 }
 
 // Reset cart
 function resetCart() {
-  console.log("reset is called");
-
-  // Clear the cart items in modal
-  itemsOrdered.innerHTML = ""; // Clear the content
-  itemsOrdered.style.display = "none"; // Hide the element
-
-  // Reset the order summary section
-  const orderSummary = document.querySelector(".order-summary");
-  if (orderSummary) orderSummary.style.display = "none";
-
-  // Reset the cart quantity text
-  const cartQuantity = document.querySelector(".cart-quantity");
-  if (cartQuantity) cartQuantity.textContent = `Your Cart (0)`;
-
-  // Show the empty cart image
-  const emptyCartImage = document.querySelector(".empty-cart-image");
-  if (emptyCartImage) emptyCartImage.style.display = "block";
-
-  // Show the added item section
-  const addedItem = document.querySelector(".added-item");
-  if (addedItem) addedItem.style.display = "block";
-
-  // Hide the total order section
-  const totalOrder = document.querySelector(".total-order-p");
-  if (totalOrder) totalOrder.style.display = "none";
-
-  // Hide ordered items
-  const orderedItem = document.querySelector(".ordered-items");
-  if (orderedItem) orderedItem.innerHTML = "";
-
-  // Hide confirm order button
-  const confirmedButton = document.querySelector(".confirm-order-button");
-  if (confirmedButton) confirmedButton.classList.add("hidden");
-
-  // Reset all quantity fields and buttons
-  document.querySelectorAll(".quantity-order").forEach((quantity) => {
-    quantity.style.display = "none";
-  });
-
-  // Show all "Add to Cart" buttons again
-  document.querySelectorAll(".add-to-cart-button").forEach((button) => {
-    button.style.display = "block";
-  });
-
-  // Clear local storage for orders
-  localStorage.removeItem("confirmedOrder");
-
-  // Reset the totalProductsOrdered element
-  const totalProductsOrdered = document.querySelector(".totalproducts-ordered");
-  if (totalProductsOrdered) {
-    totalProductsOrdered.innerHTML = `<div class="style-orderedproducts"><p class="total-items">Order Total </p><span class="total-items-span">$0.00</span></div>`;
+  
+    // Clear the cart items in modal
+    itemsOrdered.innerHTML = ""; // Clear the content
+    itemsOrdered.style.display = "none"; // Hide the element
+  
+    // Reset the order summary section
+    const orderSummary = document.querySelector(".order-summary");
+    if (orderSummary) {
+      orderSummary.style.display = "none";
+      orderSummary.innerHTML = ""; // Ensure it is properly reset
+    }
+  
+    // Reset the cart quantity text
+    cartQuantity.textContent = `Your Cart (0)`;
+  
+    // Show the empty cart image
+    emptyCartImage.style.display = "block";
+  
+    // Show the added item section
+    addedItem.style.display = "block";
+  
+    // Hide the total order section
+    totalOrder.style.display = "none";
+  
+    // Hide ordered items
+    orderedItem.innerHTML = "";
+  
+    // Hide confirm order button
+    confirmedButton.classList.add("hidden");
+  
+    // Reset all quantity fields and buttons
+    document.querySelectorAll(".quantity-order").forEach((quantity) => {
+      quantity.style.display = "none";
+      quantity.querySelector(".order-quantity").textContent = "1"; // Reset quantity to 1
+    });
+  
+    // Show all "Add to Cart" buttons again
+    document.querySelectorAll(".add-to-cart-button").forEach((button) => {
+      button.style.display = "block";
+    });
+  
+    // Clear local storage for orders
+    localStorage.removeItem("confirmedOrder");
+  
+    // Reset the totalProductsOrdered element
+    totalProductsOrdered.innerHTML = `<div class="style-orderedproducts">
+        <p class="total-items">Order Total </p>
+        <span class="total-items-span">$0.00</span>
+      </div>`;
     totalProductsOrdered.style.display = "none";
+  
+    // Reset cart count and total amount
+    cartCount = 0;
+    totalOrderAmount = 0;
+  
+    // Ensure the modal is properly hidden
+    confirmedModalOrder.classList.add("hidden");
+  
+    // ✅ FIX: Ensure total order is displayed when adding new products
+    totalOrder.style.display = "flex"; // Show total order when items are added
   }
-
-  // Reset cart count and total amount
-  cartCount = 0;
-  totalOrderAmount = 0;
-
-  console.log("Cart Count after reset:", cartCount); // Debugging
-  console.log("Total Order Amount after reset:", totalOrderAmount); // Debugging
-
-  // Hide modal after clearing data
-  confirmedModalOrder.classList.add("hidden");
-}
