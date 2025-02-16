@@ -27,6 +27,8 @@ confirmedButton.addEventListener("click", confirmedOrder);
 newOrderButton.addEventListener("click", () => {
   confirmedModalOrder.classList.add("hidden"); // Hide the modal
   resetCart(); // Reset the cart
+  totalOrder.style.display = "none"; //Hide the total order section
+  addedItem.style.display = "flex"; // Show the added item section
 });
 
 window.addEventListener("click", (event) => {
@@ -35,8 +37,6 @@ window.addEventListener("click", (event) => {
     resetCart();
   }
 });
-
-// Functions
 
 // Add product to cart
 function addProductToCart(e) {
@@ -139,7 +139,7 @@ function createOrderedProduct(
     removeProductFromCart(productPrice * quantity);
     updateCartData(productName, 0);
     if (button) {
-      button.style.display = "block"; // Show the corresponding "Add to Cart" button
+      button.style.display = "flex"; // Show the corresponding "Add to Cart" button
     }
     if (quantityOrder) {
       quantityOrder.style.display = "none";
@@ -260,20 +260,24 @@ function confirmedOrder() {
       orderDiv.classList.add("ordered-item");
 
       orderDiv.innerHTML = `
+        <div class="modal-product-wrapper">
         <img src="${item.image}" alt="${item.name}" class="modal-product-image" />
         <div class="modal-product-details">
           <h3>${item.name}</h3>
-          <p>${item.quantity}x</p>
-          <p>$${item.price.toFixed(2)}</p>
+          <p>${item.quantity}x <span class="modal-product-span">@$${item.price.toFixed(2)}</span></p>
+          </div>
+          <span class ="modal-calculated-price">$${(item.price * item.quantity).toFixed(
+     2)}
+
+        </div>
         </div>
       `;
-
       itemsOrdered.appendChild(orderDiv);
     });
 
     itemsOrdered.innerHTML += `
-      <div class="order-summary">
-        <p>Total Amount: $${totalAmount.toFixed(2)}</p>
+      <div>
+        <p style="color:black; font-weight:800;">Order Total: $${totalAmount.toFixed(2)}</p>
       </div>
     `;
   } else {
@@ -285,7 +289,6 @@ function confirmedOrder() {
 
 // Reset cart
 function resetCart() {
-  
     // Clear the cart items in modal
     itemsOrdered.innerHTML = ""; // Clear the content
     itemsOrdered.style.display = "none"; // Hide the element
@@ -303,12 +306,6 @@ function resetCart() {
     // Show the empty cart image
     emptyCartImage.style.display = "block";
   
-    // Show the added item section
-    addedItem.style.display = "block";
-  
-    // Hide the total order section
-    totalOrder.style.display = "none";
-  
     // Hide ordered items
     orderedItem.innerHTML = "";
   
@@ -323,7 +320,7 @@ function resetCart() {
   
     // Show all "Add to Cart" buttons again
     document.querySelectorAll(".add-to-cart-button").forEach((button) => {
-      button.style.display = "block";
+      button.style.display = "flex";
     });
   
     // Clear local storage for orders

@@ -219,18 +219,16 @@ opacity: 0.75;
   height: 1rem;
   width: 0.5rem;
   padding: 0.0675rem 0;
-  border-radius: 50%;
-  border: 0.0625rem solid black;
 }
 
 .total-order-p {
-  row-gap: 0.8rem;
-  background-color: var(--Rose-100);
+  row-gap: 1rem;
+  background-color: var(--Rose-300);
   width: 100%;
   max-width: 70%;
   margin: 2rem 20%;
   display: none;
-  padding: 0.8rem;
+  padding: 0.3rem;
   border-radius: 20px;
   text-align: center;
 }
@@ -265,9 +263,10 @@ opacity: 0.75;
   font-weight: 800;
   border-radius: 20px;
   border: none;
-  width: 60%;
+  width: 100%;
+  max-width: 50%;
   padding: 0.8rem;
-  margin: 2rem 20%;
+  margin: 2rem 25%;
 }
 
 .total-items {
@@ -304,24 +303,80 @@ opacity: 0.75;
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(247, 240, 240, 0.5);
+  background-color: rgba(87, 83, 83, 0.5);
 }
 
 .modal-content {
   background-color: var(--Rose-50);
   margin: 5% auto;
-  padding: 20px;
-  border-radius: 8px;
+  border-radius: 0.3em;
   width: 80%;
   height: auto;
   max-width: 500px;
   text-align: center;
+  padding: 0.5rem;
 }
 
 .modal-content img {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   margin: 0 auto;
+}
+
+.modal-content h3 {
+  font-size: 1.5rem;
+}
+.modal-content p {
+  font-size: 0.9rem;
+  color: hsl(12, 20%, 44%);
+}
+
+.modal-product-wrapper {
+  display: flex;
+  max-height: 300px;
+}
+.modal-product-details {
+  display: grid;
+  /* grid-template-columns: 80% 20%; */
+  place-items: center;
+  justify-content: center;
+  max-width: 85%;
+  margin: 0 auto;
+}
+
+.ordered-item {
+  display: flex;
+  position: relative;
+  background-color: var(--Rose-100);
+  width: 100%;
+  max-width: 85%;
+  margin:0 auto;
+  padding: 1rem;
+  gap: 1rem;
+  border-radius: 8px;
+  border-bottom: 1px solid hsl(14, 25%, 72%);
+}
+
+.modal-product-image{
+  border-radius: 20%;
+  display:block;
+}
+
+.modal-item-quantity{
+  color: var(--Red-);
+  font-size: 1.2rem;
+}
+
+.modal-calculated-price{
+  color: black;
+  font-weight: 600;
+  margin-left: 2rem;
+  position: absolute;
+  right: 0;
+}
+
+.modal-product-details h3 {
+  font-size: 0.85rem;
 }
 
 .new-order-button {
@@ -331,16 +386,11 @@ opacity: 0.75;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 1rem auto;
   width: 100%;
   max-width: 80%;
 }
 
-.ordered-item {
-  display: flex;
-  gap: 1rem;
-  margin: 0.8rem 0;
-}
 /* ===== Mobile View (Max: 479px) ===== */
 @media (max-width: 479px) {
   .mobile {
